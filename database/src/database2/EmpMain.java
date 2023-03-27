@@ -28,16 +28,35 @@ public class EmpMain {
 			//switch 작성
 			switch (no) {
 			case 1:
-				
+				//추가할 사원정보 입력받기
+				EmpDTO empDTO=new EmpDTO();
+				System.out.print("추가할 사원번호를 입력하세요: ");
+				empDTO.setEmpno(Integer.parseInt(sc.nextLine()));
+				System.out.print("추가할 사원명을 입력하세요: ");
+				empDTO.setEname(sc.nextLine());
+				System.out.print("추가할 직무를 입력하세요: ");
+				empDTO.setJob(sc.nextLine());
+				System.out.print("추가할 담당매니저번호를 입력하세요: ");
+				empDTO.setMgr(Integer.parseInt(sc.nextLine()));
+				System.out.print("추가할 급여를 입력하세요: ");
+				empDTO.setSal(Integer.parseInt(sc.nextLine()));
+				System.out.print("추가할 추가수당을 입력하세요: ");
+				empDTO.setComm(Integer.parseInt(sc.nextLine()));
+				System.out.print("추가할 부서번호를 입력하세요: ");
+				empDTO.setDeptno(Integer.parseInt(sc.nextLine()));
+			    System.out.println(empDAO.insert(empDTO)?"사원 추가 성공":"사원 추가 실패");
 				break;
 			case 2:
-				
+				//삭제할 empno 입력받기
+				System.out.print("삭제할 사원번호를 입력하세요: ");
+				int empno=Integer.parseInt(sc.nextLine());
+				System.out.println(empDAO.remove(empno)?"사원 삭제 성공":"사원 삭제 실패");
 				break;
 			case 3:
 				//empno, sal 입력받기
-				System.out.println("사원번호를 입력하세요: ");
-				int empno=Integer.parseInt(sc.nextLine());
-				System.out.println("수정할 급여를 입력하세요: ");
+				System.out.print("사원번호를 입력하세요: ");
+				empno=Integer.parseInt(sc.nextLine());
+				System.out.print("수정할 급여를 입력하세요: ");
 				int sal=Integer.parseInt(sc.nextLine());
 				System.out.println(empDAO.update(sal, empno)?"급여 변경 성공":"급여 변경 실패");
 				break;
@@ -51,15 +70,15 @@ public class EmpMain {
 				//출력
 //				System.out.println(dto);
 				if(dto!=null) {
-				System.out.println("\n*** 사원정보 조회 ***");
-				System.out.println("사원번호: "+dto.getEmpno());
-				System.out.println("사원명: "+dto.getEname());
-				System.out.println("직무: "+dto.getJob());
-				System.out.println("급여: "+dto.getSal());
-				System.out.println("추가수당: "+dto.getComm());
-				System.out.println("부서번호: "+dto.getDeptno());
-				System.out.println();
-				} else {
+				   System.out.println("\n*** 사원정보 조회 ***");
+				   System.out.println("사원번호: "+dto.getEmpno());
+				   System.out.println("사원명: "+dto.getEname());
+				   System.out.println("직무: "+dto.getJob());
+				   System.out.println("급여: "+dto.getSal());
+				   System.out.println("추가수당: "+dto.getComm());
+				   System.out.println("부서번호: "+dto.getDeptno());
+				   System.out.println();
+				}else {
 					System.out.println("사원번호를 확인해주세요.");
 				}
 				break;
@@ -76,14 +95,14 @@ public class EmpMain {
 				if (list.isEmpty()) {
 					System.out.println("조회할 사원이 존재하지 않습니다.");
 				}else {
-				System.out.println("사번\t사원명\t직무\t입사일");
-				System.out.println("====================================");
-				for(EmpDTO empDTO:list) {
-					System.out.print(empDTO.getEmpno()+"\t");
-					System.out.print(empDTO.getEname()+"\t");
-					System.out.print(empDTO.getJob()+"\t");
-					System.out.print(empDTO.getHiredate()+"\n");
-				}
+					System.out.println("사번\t사원명\t직무\t입사일");
+				    System.out.println("====================================");
+				    for(EmpDTO empDTO1:list) {
+				    	System.out.print(empDTO1.getEmpno()+"\t");
+					    System.out.print(empDTO1.getEname()+"\t");
+					    System.out.print(empDTO1.getJob()+"\t");
+					    System.out.print(empDTO1.getHiredate()+"\n");
+				   }
 				}
 				break;
 			case 6:
