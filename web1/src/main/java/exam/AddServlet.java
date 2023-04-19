@@ -21,7 +21,7 @@ public class AddServlet extends HttpServlet {
 		int num1 =  Integer.parseInt(request.getParameter("num1"));
 		int num2 =  Integer.parseInt(request.getParameter("num2"));
 		
-		// 연산 후 화면에 보여주기
+		// 연산 후 화면에 보여주기(현재 보여지는 페이지는 html 페이지야)
 		response.setContentType("text/html;charset=utf-8");
 		PrintWriter out = response.getWriter();
 		

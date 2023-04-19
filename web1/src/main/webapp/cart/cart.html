@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>cart.html</title>
+</head>
+<body>
+<!-- 
+    어떤 상황에서 html로 만들거나 jsp로 만들까??
+    => 자바 코드가 들어가는 페이지거나 include를 사용할 것이면 jsp로 만들고, 아니면 html로 만들면 된다.
+ -->
+ <form action="cartadd.jsp" method="post">
+     <input type="radio" name="product" id="bmw" value="BMW" />BMW
+     <input type="radio" name="product" id="sm5" value="SM5" />SM5
+     <input type="radio" name="product" id="audi" value="AUDI" />AUDI
+     <input type="radio" name="product" id="k7" value="K7" />K7
+     <input type="submit" value="카트 추가" />
+ </form>
+</body>
+</html>
