@@ -9,8 +9,8 @@
 </head>
 <body>
 <% 
-    String userId=request.getParameter("userid");
-    String password=request.getParameter("password");
+    String userId = request.getParameter("userid");
+    String password = request.getParameter("password");
     
     // session에 값을 담을 때 1. 개별로 담는 형태
     // session.setAttribute("id", userId);
