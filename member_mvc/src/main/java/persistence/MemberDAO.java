@@ -9,6 +9,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
+import domain.ChangeDTO;
 import domain.MemberDTO;
 
 public class MemberDAO {
@@ -102,8 +103,7 @@ public class MemberDAO {
 		    try {
 		    	con=getConnection();
 		    	
-		    	String sql = "INSERT INTO MEMBERTBL(USERID, PASSWORD, NAME, GENDER, EMAIL) ";
-		    	sql += "VALUES(?,?,?,?,?)";
+		    	String sql = "INSERT INTO MEMBERTBL(USERID, PASSWORD, NAME, GENDER, EMAIL) VALUES(?,?,?,?,?)";
 		    	pstmt = con.prepareStatement(sql);
 		    	// ? 해결
 		    	pstmt.setString(1, registerDto.getUserid());
@@ -117,7 +117,7 @@ public class MemberDAO {
 					flag=true;
 					commit(con);
 				}
-			} catch (SQLException e) {
+			} catch (Exception e) {
 				rollback(con);
 				e.printStackTrace();
 			} finally {
@@ -126,6 +126,84 @@ public class MemberDAO {
 			return flag;
 		}
 		
+		// 비밀번호 변경
+		public boolean change(ChangeDTO dto) {
+			boolean flag = false;
 
+			try {
+				con = getConnection();
 
+				String sql = "UPDATE MEMBERTBL SET PASSWORD = ? WHERE USERID=?";
+				pstmt = con.prepareStatement(sql);
+				// ? 해결
+				pstmt.setString(1, dto.getConfirmPassword());
+				pstmt.setString(2, dto.getUserid());
+
+				int result = pstmt.executeUpdate();
+				if (result > 0) {
+					flag = true;
+					commit(con);
+				}
+			} catch (Exception e) {
+				rollback(con);
+				e.printStackTrace();
+			} finally {
+				close(con, pstmt);
+			}
+			return flag;
+		}
+		
+		// 회원 탈퇴: 아이디와 비밀번호 일치 시에
+		public boolean remove(String userid, String password) {
+			boolean flag = false;
+
+			try {
+				con = getConnection();
+
+				String sql = "DELETE FROM MEMBERTBL WHERE USERID=? PASSWORD=?";
+				pstmt = con.prepareStatement(sql);
+				// ? 해결
+				pstmt.setString(1, userid);
+				pstmt.setString(2, password);
+
+				int result = pstmt.executeUpdate();
+				if (result > 0) {
+					flag = true;
+					commit(con);
+				}
+			} catch (Exception e) {
+				rollback(con);
+				e.printStackTrace();
+			} finally {
+				close(con, pstmt);
+			}
+			return flag;
+		}
+		
+		// 중복아이디 검사
+		// 존재하는 아이디가 있다면 true 리턴, 없다면 false 리턴
+		public boolean duplicateId(String userid) {
+			boolean flag = true;
+
+			try {
+				con = getConnection();
+
+				String sql = "SELECT COUNT(*) FROM MEMBERTBL WHERE USERID=?";
+				pstmt = con.prepareStatement(sql);
+				// ? 해결
+				pstmt.setString(1, userid);
+				rs=pstmt.executeQuery();
+				
+				if (rs.next()) {
+					int cnt=rs.getInt(1);
+					if(cnt>0) flag=false;
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				close(con, pstmt, rs);
+			}
+			return flag;
+		}
+		
 }
