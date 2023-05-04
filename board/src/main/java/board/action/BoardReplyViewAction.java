@@ -5,12 +5,12 @@ import javax.servlet.http.HttpServletRequest;
 import board.domain.BoardDTO;
 import board.service.BoardReadService;
 
-public class BoardReadAction implements Action {
+public class BoardReplyViewAction implements Action {
 
 	@Override
 	public ActionForward execute(HttpServletRequest request) throws Exception {
 		// get
-		int bno=Integer.parseInt(request.getParameter("bno"));
+		int bno=Integer.parseInt(request.getParameter("bno")); // 원본 글의 정보를 담고 replyForm으로 들어간 것이다.
 		
 		// service
 		BoardReadService service=new BoardReadService();
@@ -18,8 +18,8 @@ public class BoardReadAction implements Action {
 		
 		request.setAttribute("dto", dto);
 		
-		// readForm.jsp로 이동
-		return new ActionForward(false, "readForm.jsp");
+		// replyForm.jsp로 이동
+		return new ActionForward(false, "replyForm.jsp");
 	}
 
 }
