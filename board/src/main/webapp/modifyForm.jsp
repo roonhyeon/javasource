@@ -54,16 +54,24 @@
     </div>
   </div>
   </div>
-  <!-- 메인화면에 보여주기 싫어서 hidden을 쓴다. -->
+    <!-- 메인화면에 보여주기 싫어서 hidden을 쓴다. -->
     <input type="hidden" name="bno" value="${dto.bno}"/>
-  <button type="submit" class="btn btn-primary">수정</button>
-  <button type="button" class="btn btn-danger">삭제</button>
-  <button type="button" class="btn btn-success">목록보기</button>
+    <input type="hidden" name="criteria" value="${pageDto.criteria}"/>
+    <input type="hidden" name="keyword" value="${pageDto.keyword}"/>
+    <input type="hidden" name="page" value="${pageDto.page}"/>
+    <input type="hidden" name="amount" value="${pageDto.amount}"/>
+    <button type="submit" class="btn btn-primary">수정</button>
+    <button type="button" class="btn btn-danger">삭제</button>
+    <button type="button" class="btn btn-success">목록보기</button>
 </form>
 </main>
 <form action="" id="modifyForm">
     <input type="hidden" name="bno" value="${dto.bno}"/>
     <input type="hidden" name="password" value="" id="password"/>
+    <input type="hidden" name="criteria" value="${pageDto.criteria}"/>
+    <input type="hidden" name="keyword" value="${pageDto.keyword}"/>
+    <input type="hidden" name="page" value="${pageDto.page}"/>
+    <input type="hidden" name="amount" value="${pageDto.amount}"/>
 </form>
 <script src='<c:url value="js/modify.js"/>'></script>
 <%@ include file="include/footer.jsp"%>

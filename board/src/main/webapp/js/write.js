@@ -1,4 +1,6 @@
 /**
  * 
  */
-document.querySelector(".btn-success").addEventListener("click",()=>location.href="list.do");
+document.querySelector(".btn-success").addEventListener("click",()=>{
+	document.querySelector("#writeForm").submit();
+});

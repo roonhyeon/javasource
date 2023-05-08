@@ -1,7 +1,10 @@
 /**
  * 
  */
-document.querySelector(".btn-success").addEventListener("click",()=>location.href="list.do");
+document.querySelector(".btn-success").addEventListener("click",()=>{
+	modifyForm.action="list.do";
+	modifyForm.submit();
+});
 
 // 삭제 버튼 클릭시 id=modifyForm 전송 to action=delete.do
 const modifyForm=document.querySelector("#modifyForm");

@@ -42,7 +42,7 @@
         	out.print("<a href='download.jsp?fileName="+encodeAttach+"'>");
         	out.print(attachName);
         	out.print("</a>");
-        }   
+        }
     %>
     </div>
     
@@ -54,6 +54,10 @@
 </main>
 <form action="" id="readForm">
     <input type="hidden" name="bno" value="${dto.bno}"/>
+    <input type="hidden" name="criteria" value="${pageDto.criteria}"/>
+    <input type="hidden" name="keyword" value="${pageDto.keyword}"/>
+    <input type="hidden" name="page" value="${pageDto.page}"/>
+    <input type="hidden" name="amount" value="${pageDto.amount}"/>
 </form>
 <script src='<c:url value="js/read.js"/>'></script>
 <%@ include file="include/footer.jsp"%>

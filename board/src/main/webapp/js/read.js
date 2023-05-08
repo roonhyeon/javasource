@@ -4,13 +4,17 @@
 	
 // readForm을 가져온 후 readForm을 modify.do로 전송
 const readForm=document.querySelector("#readForm");
-document.querySelector(".btn-success").addEventListener("click",()=>location.href="list.do");
+
+document.querySelector(".btn-success").addEventListener("click",()=>{
+	readForm.action="list.do";
+	readForm.submit();
+})
 
 // 답변 클릭시
 document.querySelector(".btn-secondary").addEventListener("click",()=>{
 	readForm.action="replyView.do";
 	readForm.submit();
-});
+})
 
 const form=document.querySelector("form");
 form.addEventListener("submit",(e)=>{

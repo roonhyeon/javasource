@@ -8,10 +8,15 @@ import board.persistence.BoardDAO;
 
 public class BoardListService {
 	public List<BoardDTO> getList(PageDTO pageDto){
+		
+		
+		// 전체 게시물 가져오기
 		BoardDAO dao=new BoardDAO();
+		
 		List<BoardDTO> list=dao.getRows(pageDto);
 		
 		return list;
 	}
 
 }
+

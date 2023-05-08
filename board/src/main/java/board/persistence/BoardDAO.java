@@ -110,6 +110,8 @@ public class BoardDAO {
 		// bno, title, name, regdate, cnt
 		public List<BoardDTO> getRows(PageDTO pageDto){
 			List<BoardDTO> list=new ArrayList<>();
+			int start=pageDto.getPage()*pageDto.getAmount();
+			int end=(pageDto.getPage()-1)*pageDto.getAmount();
 			
 			try {
 				con=getConnection();
@@ -122,7 +124,7 @@ public class BoardDAO {
 					// 페이지 나누기
 					sql="SELECT * ";
 					sql+="FROM (SELECT ROWNUM rnum, BNO, TITLE, name, regdate, cnt, re_lev ";
-					sql+="FROM(SELECT BNO, TITLE, name, regdate, cnt, re_lev ";
+					sql+="FROM (SELECT BNO, TITLE, name, regdate, cnt, re_lev ";
 					sql+="FROM BOARD ORDER BY RE_REF DESC, RE_SEQ ASC) ";
 					sql+="WHERE ROWNUM <= ?) ";
 					sql+="WHERE rnum > ?";
@@ -131,17 +133,25 @@ public class BoardDAO {
 					// ? 해결
 					// ROWNUM 값: 페이지번호*한 페이지에 보여줄 목록 개수
 					// RNUM 값: (페이지번호-1)*한 페이지에 보여줄 목록 개수
-					int start=pageDto.getPage()*pageDto.getAmount();
-					int end=(pageDto.getPage()-1)*pageDto.getAmount();
 					
 					pstmt.setInt(1, start);
 					pstmt.setInt(2, end);
 				}else {
 					// 특정 검색어 리스트 조회
-					sql="select bno, title, name, regdate, cnt, re_lev from board ";
-				    sql+="where "+pageDto.getCriteria()+" like ? order by re_ref desc, re_seq asc";
+					// sql="select bno, title, name, regdate, cnt, re_lev from board ";
+				    // sql+="where "+pageDto.getCriteria()+" like ? order by re_ref desc, re_seq asc";
+					sql="SELECT * ";
+					sql+="FROM (SELECT ROWNUM rnum, BNO, TITLE, name, regdate, cnt, re_lev ";
+					sql+="FROM (SELECT BNO, TITLE, name, regdate, cnt, re_lev ";
+					sql+="FROM BOARD where "+pageDto.getCriteria()+" like ? ";
+					sql+="ORDER BY RE_REF DESC, RE_SEQ ASC) ";
+					sql+="WHERE ROWNUM <= ?) ";
+					sql+="WHERE rnum > ?";
+					
 					pstmt=con.prepareStatement(sql);
 					pstmt.setString(1, "%"+pageDto.getKeyword()+"%");
+					pstmt.setInt(2, start);
+					pstmt.setInt(3, end);
 				}
 				
 				rs=pstmt.executeQuery();				
@@ -162,6 +172,35 @@ public class BoardDAO {
 				close(con, pstmt, rs);
 			}
 			return list;
+		}
+		
+		// 전체 게시물 개수 세기
+		// select count(*) from board;
+		public int totalRows(PageDTO pageDto) {
+			int total=0;
+		
+			try {
+				con=getConnection();
+				String sql="";
+				
+				if (pageDto.getKeyword().isEmpty() && pageDto.getCriteria().isEmpty()) {
+					sql="select count(*) from board";
+					pstmt=con.prepareStatement(sql);
+				} else {
+					sql="select count(*) from board where "+ pageDto.getCriteria() +" like ?";
+					pstmt=con.prepareStatement(sql);
+					pstmt.setString(1, "%"+pageDto.getKeyword()+"%");
+				}
+				rs=pstmt.executeQuery();
+				if(rs.next()) {
+					total=rs.getInt(1);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				close(con, pstmt, rs);
+			}
+			return total;
 		}
 		
 		// 게시글 하나 조회

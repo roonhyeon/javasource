@@ -1,5 +1,6 @@
 package board.action;
 
+import java.net.URLEncoder;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,13 +26,19 @@ public class BoardUpdateAction implements Action {
 			dto.setAttach(formData.get("attach"));
 		}
 		
+		String criteria = formData.get("criteria");
+		String keyword = URLEncoder.encode(formData.get("keyword"),"utf-8");
+		String page = formData.get("page");
+		String amount = formData.get("amount");
+		
+		// 서비스 작업
 		BoardUpdateService service=new BoardUpdateService();
 		
 		String path="";
 		if(service.update(dto)) {
-			path="read.do?bno="+dto.getBno();
+			path="read.do?bno="+dto.getBno()+"&criteria="+criteria+"&keyword="+keyword+"&page="+page+"&amount="+amount;
 		} else {
-			path="modify.do?bno="+dto.getBno();
+			path="modify.do?bno="+dto.getBno()+"&criteria="+criteria+"&keyword="+keyword+"&page="+page+"&amount="+amount;
 		}
 		return new ActionForward(true, path);
 	}
